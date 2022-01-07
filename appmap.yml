@@ -1,0 +1,8 @@
+# appmap.yml
+name: my_app
+packages:
+  # List the packages you'd like to record here.
+  - path: com.bortoti.cleanstock.adapter
+  - path: com.bortoti.cleanstock.application
+  - path: com.bortoti.cleanstock.mapper
+  - path: com.bortoti.cleanstock
