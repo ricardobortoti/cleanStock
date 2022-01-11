@@ -3,6 +3,7 @@ package com.bortoti.cleanstock.adapter.out.persistence.entity;
 import com.bortoti.cleanstock.application.domain.BrokerageItem;
 import com.bortoti.cleanstock.mapper.annotation.Default;
 import lombok.*;
+import org.hibernate.annotations.Type;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
@@ -18,6 +19,7 @@ import java.util.UUID;
 public class BrokerageJpaEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type="uuid-char")
     private UUID BrokerageId;
     /**
      * Valor Líquido da Nota

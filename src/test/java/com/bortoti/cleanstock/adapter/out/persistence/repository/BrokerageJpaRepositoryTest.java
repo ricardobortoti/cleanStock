@@ -5,9 +5,16 @@ import com.bortoti.cleanstock.adapter.out.persistence.entity.BrokerageJpaEntity;
 import com.bortoti.cleanstock.application.domain.Brokerage;
 import com.bortoti.cleanstock.application.domain.BrokerageItem;
 import com.bortoti.cleanstock.application.domain.enums.OperationType;
+import com.bortoti.cleanstock.testcontainers.MysqlTestContainer;
+import org.junit.ClassRule;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;
@@ -17,10 +24,20 @@ import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BrokerageJpaRepositoryTest {
     @Autowired
     BrokerageJpaRepository brokerageJpaRepository;
+
+    @BeforeAll
+    private static void initDatabaseProperties() {
+        mysqlTestContainer.start();
+    }
+
+    @ClassRule
+    public static MySQLContainer<MysqlTestContainer> mysqlTestContainer = MysqlTestContainer.getInstance();
 
     @Test
     void persistSmokeTest() {
@@ -47,7 +64,7 @@ class BrokerageJpaRepositoryTest {
 
         var savedEntity = brokerageJpaRepository.save(brokerage);
         var recoveredEntity = brokerageJpaRepository.findById(savedEntity.getBrokerageId());
-        assertTrue(savedEntity != null);
-        assertEquals(savedEntity.getBrokerageId(), recoveredEntity.get().getBrokerageId());
+        assertNotNull(savedEntity);
+        assertEquals(savedEntity.getBrokerageId(), recoveredEntity.orElseThrow(null).getBrokerageId());
     }
 }

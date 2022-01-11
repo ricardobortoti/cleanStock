@@ -3,22 +3,43 @@ package com.bortoti.cleanstock.adapter.out.persistence.repository;
 import com.bortoti.cleanstock.adapter.out.persistence.entity.AssetJpaEntity;
 import com.bortoti.cleanstock.adapter.out.persistence.entity.OperationJpaEntity;
 import com.bortoti.cleanstock.application.domain.enums.OperationType;
+import com.bortoti.cleanstock.testcontainers.MysqlTestContainer;
+import javax.persistence.Query;
+import org.junit.ClassRule;
+import org.junit.jupiter.api.AfterAll;
+import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.junit.jupiter.Testcontainers;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.*;
 
+@Testcontainers
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class OperationJpaRepositoryTest {
     @Autowired
     OperationJpaRepository operationJpaRepository;
     @Autowired
     AssetJpaRepository assetJpaRepository;
+
+    @BeforeAll
+    private static void initDatabaseProperties() {
+        mysqlTestContainer.start();
+    }
+
+    @ClassRule
+    public static MySQLContainer<MysqlTestContainer> mysqlTestContainer = MysqlTestContainer.getInstance();
 
     @Test
     void persistSmokeTest() {
@@ -38,6 +59,6 @@ class OperationJpaRepositoryTest {
 
         var all = operationJpaRepository.findAll();
 
-        assertEquals(5, all.stream().count());
+        assertEquals(5, all.size());
     }
 }

@@ -21,13 +21,8 @@ import java.util.UUID;
 @Setter
 public class OperationJpaEntity {
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
-    @ColumnDefault("random_uuid()")
-    @Type(type = "uuid-char")
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Type(type="uuid-char")
     private UUID id;
     @OneToOne
     private AssetJpaEntity assetJpaEntity;
