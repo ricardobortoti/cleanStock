@@ -37,11 +37,15 @@ public class BrokerageItemJpaEntity {
     /**
      * Compra/Venda
      */
+    @Enumerated(EnumType.STRING)
     private OperationType type;
 
     @ManyToOne
     @JoinColumn(name = "brokerage_jpa_entity_brokerage_id")
     private BrokerageJpaEntity brokerageJpaEntity;
+
+    @OneToOne(cascade = CascadeType.MERGE)
+    private AssetJpaEntity assetJpaEntity;
 
     @Default
     public BrokerageItemJpaEntity(UUID brokerageItemId, String assetTicker, BigDecimal quantity, BigDecimal price, OperationType type, BrokerageJpaEntity brokerageJpaEntity) {

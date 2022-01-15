@@ -8,6 +8,8 @@ spring:
     jpa:
         hibernate:
             ddl-auto: update
+            naming:
+                physical-strategy: com.bortoti.cleanstock.adapter.out.config.CustomNamingStrategy
         properties:
             hibernate:
                 dialect: org.hibernate.dialect.MySQL5InnoDBDialect

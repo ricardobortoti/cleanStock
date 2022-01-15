@@ -1,10 +1,13 @@
 package com.bortoti.cleanstock;
 
+import com.bortoti.cleanstock.adapter.out.persistence.BrokeragePersistenceAdapter;
 import com.bortoti.cleanstock.adapter.out.persistence.entity.AssetJpaEntity;
 import com.bortoti.cleanstock.adapter.out.persistence.entity.BrokerageJpaEntity;
 import com.bortoti.cleanstock.adapter.out.persistence.entity.OperationJpaEntity;
 import com.bortoti.cleanstock.adapter.out.persistence.repository.AssetJpaRepository;
 import com.bortoti.cleanstock.adapter.out.persistence.repository.OperationJpaRepository;
+import com.bortoti.cleanstock.application.domain.Brokerage;
+import com.bortoti.cleanstock.application.domain.BrokerageItem;
 import com.bortoti.cleanstock.application.domain.enums.OperationType;
 import org.apache.catalina.Store;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,35 +19,44 @@ import org.springframework.transaction.annotation.Transactional;
 import javax.persistence.Query;
 import java.math.BigDecimal;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
 @SpringBootApplication
 public class CleanStockApplication {
+    /*@Autowired
+    AssetJpaRepository assetJpaRepository;
+    @Autowired
+    BrokeragePersistenceAdapter brokeragePersistenceAdapter;*/
+
     public static void main(String[] args) {
         SpringApplication.run(CleanStockApplication.class, args);
     }
 
-
-    /*@Override
+/*
+    @Override
     @Transactional
     public void run(String... args) throws Exception {
 
-        AssetJpaEntity assetJpaEntity = assetJpaRepository.save(new AssetJpaEntity(UUID.randomUUID(), "TEST3"));
+        AssetJpaEntity assetJpaEntity = new AssetJpaEntity(UUID.randomUUID(), "TICK3");
+        assetJpaRepository.save(assetJpaEntity);
 
-        for (int i = 0; i<5; i++) {
+        List<BrokerageItem> brokerageItems = new ArrayList<>();
 
-            OperationJpaEntity operationJpaEntity = new OperationJpaEntity(null,
-                    assetJpaEntity,
-                    BigDecimal.valueOf(10),
-                    BigDecimal.valueOf(10),
-                    OperationType.BUY,
-                    LocalDate.now());
+        brokerageItems.add(new BrokerageItem("TICK3",
+                BigDecimal.valueOf(10),
+                BigDecimal.valueOf(10),
+                OperationType.BUY ));
 
-            operationJpaRepository.save(operationJpaEntity);
-        }
+        Brokerage brokerage = new Brokerage(BigDecimal.valueOf(10),
+                LocalDate.now(),
+                brokerageItems);
 
-        var all = operationJpaRepository.findAll();
+        brokeragePersistenceAdapter.saveBrokerage(brokerage);
 
-    }*/
+        var asset = assetJpaRepository.findAll();
+
+    }
+ */
 }

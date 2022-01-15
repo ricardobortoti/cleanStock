@@ -1,4 +1,4 @@
-package com.bortoti.cleanstock.application.service.exception;
+package com.bortoti.cleanstock.adapter.exception;
 
 public class AssetNotFoundException extends Exception {
     public AssetNotFoundException(){}
@@ -6,4 +6,10 @@ public class AssetNotFoundException extends Exception {
     public AssetNotFoundException(String message) {
         super(message);
     }
+
+    public AssetNotFoundException(String message, Throwable cause) {
+        super(message, cause);
+    }
+
+
 }

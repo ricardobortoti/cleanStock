@@ -2,9 +2,12 @@ package com.bortoti.cleanstock.testcontainers;
 
 import org.testcontainers.containers.Container;
 import org.testcontainers.containers.MySQLContainer;
+import org.testcontainers.ext.ScriptUtils;
+import org.testcontainers.jdbc.JdbcDatabaseDelegate;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
+import javax.script.ScriptException;
 import java.io.IOException;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -20,7 +23,10 @@ public class MysqlTestContainer extends MySQLContainer<MysqlTestContainer> {
     public static MysqlTestContainer getInstance() {
         if (container == null) {
             container = new MysqlTestContainer()
+                    .withUsername("root")
+                    .withPassword("root")
                     .withDatabaseName("cleanstock");
+
         }
 
         return container;
@@ -37,7 +43,6 @@ public class MysqlTestContainer extends MySQLContainer<MysqlTestContainer> {
 
     @Override
     public void stop() {
-        super.stop();
         //do nothing, JVM handles shut down
     }
 }

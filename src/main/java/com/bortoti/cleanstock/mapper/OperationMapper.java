@@ -12,9 +12,10 @@ public interface OperationMapper {
     @Mapping(target = "asset", ignore = true)
     Operation toOperation(SendOperationCommand sendOperationCommand);
     @Mapping(target = "id", ignore = true)
-    @Mapping(target = "assetJpaEntity", ignore = true)
+    //@Mapping(target = "assetJpaEntity", ignore = true)
+    @Mapping(target = "assetJpaEntity", source = "asset")
     OperationJpaEntity operationToOperationJpaEntity(Operation operation);
-    @Mapping(target = "operationId", ignore = true)
-    @Mapping(target = "asset", ignore = true)
+    @Mapping(target = "operationId", source = "id")
+    @Mapping(target = "asset", source = "assetJpaEntity")
     Operation toOperation(OperationJpaEntity operationJpaEntity);
 }

@@ -28,6 +28,7 @@ public class OperationJpaEntity {
     private AssetJpaEntity assetJpaEntity;
     private BigDecimal quantity;
     private BigDecimal TotalValue;
+    @Enumerated(EnumType.STRING)
     private OperationType type;
     private LocalDate date;
 

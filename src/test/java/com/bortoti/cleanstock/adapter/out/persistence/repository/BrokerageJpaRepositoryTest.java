@@ -13,9 +13,13 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.test.annotation.Commit;
+import org.springframework.test.annotation.Rollback;
+import org.springframework.transaction.annotation.Transactional;
 import org.testcontainers.containers.MySQLContainer;
 import org.testcontainers.junit.jupiter.Testcontainers;
 
+import javax.script.ScriptException;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.ArrayList;
@@ -27,9 +31,11 @@ import static org.junit.jupiter.api.Assertions.*;
 @Testcontainers
 @DataJpaTest
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
+@Transactional
 class BrokerageJpaRepositoryTest {
     @Autowired
     BrokerageJpaRepository brokerageJpaRepository;
+
 
     @BeforeAll
     private static void initDatabaseProperties() {
@@ -41,6 +47,8 @@ class BrokerageJpaRepositoryTest {
 
     @Test
     void persistSmokeTest() {
+
+
         BrokerageJpaEntity brokerage = new BrokerageJpaEntity(
                 null,
                 BigDecimal.valueOf(10.22),
